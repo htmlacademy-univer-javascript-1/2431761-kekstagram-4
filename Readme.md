@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Сергей Темников](https://up.htmlacademy.ru/univer-js1/4/user/2431761).
-* Наставник: [Березин Арсений](https://htmlacademy.ru/profile/id263537).
+* Наставник: [Арсений Березин](https://htmlacademy.ru/profile/id263537).
 
 ---
 
