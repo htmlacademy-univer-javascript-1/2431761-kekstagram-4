@@ -17,6 +17,7 @@ const palinCheck = function (string){
 console.log(emptyString === string);
 };
 
+
 palinCheck('топот');
 palinCheck('ДовОд');
 palinCheck('Кекс');
