@@ -13,7 +13,7 @@ const palinCheck = function (string){
     let currSymb = string.at(i);
     emptyString += currSymb;
   }
-return(emptyString === string);
+return emptyString === string;
 };
 
 
