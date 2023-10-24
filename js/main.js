@@ -1,4 +1,4 @@
-const Names = ['Михаил',
+const NAMES = ['Михаил',
   'Денис',
   'Ярослав',
   'Ирина',
@@ -19,7 +19,7 @@ const Names = ['Михаил',
   'Милана',
   'Анна',];
 
-const Sentences = [
+const SENTENCES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -28,7 +28,7 @@ const Sentences = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const Descriptions = [
+const DESCRIPTIONS = [
   'Ласковый закат над океаном',
   'Расцветающее поле маков',
   'Мост через горную реку',
@@ -56,16 +56,16 @@ const Descriptions = [
   'Рабочий на стройке, с отдыхающим веслом на плече',
 ];
 
-const AvatarMin = 1;
-const AvatarMax = 6;
+const AVATAR_MIN = 1;
+const AVATAR_MAX = 6;
 
-const PhotoCount = 25;
+const PHOTO_COUNT = 25;
 
-const LikesMin = 15;
-const LikesMax = 200;
+const LIKES_MIN = 15;
+const LIKES_MAX = 200;
 
-const NumCommentsMin = 0;
-const NumCommentsMax = 30;
+const NUM_COMMENTS_MIN = 0;
+const NUM_COMMENTS_MAX = 30;
 
 
 function getRandomInt(min, max) {
@@ -75,9 +75,9 @@ function getRandomInt(min, max) {
 function generateComment() {
   const comment = {
     id: getRandomInt(1, 1000), // Генерируем уникальный ID
-    avatar: `img/avatar-${getRandomInt(AvatarMin, AvatarMax)}.svg`, // Генерируем случайную аватарку
-    message: Sentences[getRandomInt(0, Sentences.length - 1)], // Выбираем случайное предложение
-    name: Names[getRandomInt(0, Names.length - 1)] // Выбираем случайное имя
+    avatar: `img/avatar-${getRandomInt(AVATAR_MIN, AVATAR_MAX)}.svg`, // Генерируем случайную аватарку
+    message: SENTENCES[getRandomInt(0, SENTENCES.length - 1)], // Выбираем случайное предложение
+    name: NAMES[getRandomInt(0, NAMES.length - 1)] // Выбираем случайное имя
   };
 
   return comment;
@@ -86,16 +86,16 @@ function generateComment() {
 function generatePhotosArray() {
   const photos = [];
 
-  for (let i = 1; i <= PhotoCount; i++) {
+  for (let i = 1; i <= PHOTO_COUNT; i++) {
     const photo = {
       id: i,
       url: `photos/${i}.jpg`,
-      description: Descriptions[i],
-      likes: getRandomInt(LikesMin, LikesMax),
+      description: DESCRIPTIONS[i],
+      likes: getRandomInt(LIKES_MIN, LIKES_MAX),
       comments: []
     };
 
-    const numComments = getRandomInt(NumCommentsMin, NumCommentsMax); // Генерируем случайное количество комментариев
+    const numComments = getRandomInt(NUM_COMMENTS_MIN, NUM_COMMENTS_MAX); // Генерируем случайное количество комментариев
 
     for (let j = 0; j < numComments; j++) {
       photo.comments.push(generateComment());
