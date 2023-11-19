@@ -1,3 +1,3 @@
-import {generatePhotosArray} from 'js/data.js';
+import { renderPictures } from 'js/picture.js';
 
-const photosArray = generatePhotosArray();
+renderPictures();
