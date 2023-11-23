@@ -1,10 +1,10 @@
-import { generatePhotosArray } from 'js/data.js';
+import {generatePhotosArray} from '/js/data.js';
 
-const photosArray = generatePhotosArray();
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
 
-function renderPicture(photo) {
-  const pictureTemplate = document.querySelector('#picture').content.cloneNode(true);
-  const pictureElement = pictureTemplate.querySelector('.picture');
+function createPictureElement(photo) {
+  const pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = photo.url;
   pictureElement.querySelector('.picture__img').alt = photo.description;
@@ -14,13 +14,12 @@ function renderPicture(photo) {
   return pictureElement;
 }
 
-function renderPictures(photos) {
+function renderPictures() {
+  const photosArray = generatePhotosArray();
   const fragment = document.createDocumentFragment();
-  const picturesContainer = document.querySelector('.pictures');
 
-  photos.forEach((photo) => {
-    const picture = renderPicture(photo);
-    fragment.appendChild(picture);
+  photosArray.forEach((photo) => {
+    fragment.appendChild(createPictureElement(photo));
   });
 
   picturesContainer.appendChild(fragment);
