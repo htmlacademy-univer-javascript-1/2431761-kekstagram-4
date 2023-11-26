@@ -1,4 +1,5 @@
 import {generatePhotosArray} from '/js/data.js';
+import {openFullScreen} from '/js/fullScreen.js';
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
@@ -10,6 +11,8 @@ function createPictureElement(photo) {
   pictureElement.querySelector('.picture__img').alt = photo.description;
   pictureElement.querySelector('.picture__likes').textContent = photo.likes;
   pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
+
+  pictureElement.addEventListener('click', () => openFullScreen(photo));
 
   return pictureElement;
 }
