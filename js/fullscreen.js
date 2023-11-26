@@ -1,23 +1,19 @@
-import {generatePhotosArray} from '/js/data.js';
-
-const body = document.querySelector('body');
-const bigPicture = document.querySelector('.big-picture');
-const bigPictureImg = bigPicture.querySelector('.big-picture__img');
-const likesCount = bigPicture.querySelector('.likes-count');
-const commentsCount = bigPicture.querySelector('.comments-count');
-const socialComments = bigPicture.querySelector('.social__comments');
-const socialCaption = bigPicture.querySelector('.social__caption');
-const commentCountBlock = document.querySelector('.social__comment-count');
-const commentsLoader = document.querySelector('.comments-loader');
+const BODY = document.querySelector('body');
+const BIG_PICTURE = document.querySelector('.big-picture');
+const BIG_PICTURE_IMG = BIG_PICTURE.querySelector('.big-picture__img');
+const LIKES_COINT = BIG_PICTURE.querySelector('.likes-count');
+const COMMENTS_COINT = BIG_PICTURE.querySelector('.comments-count');
+const SOCIAL_COMMENTS = BIG_PICTURE.querySelector('.social__comments');
+const SOCIAL_CAPTION = BIG_PICTURE.querySelector('.social__caption');
 
 function openFullScreen(photo) {
-  body.classList.add('modal-open');
-  bigPicture.classList.remove('hidden');
+  BODY.classList.add('modal-open');
+  BIG_PICTURE.classList.remove('hidden');
 
-  bigPictureImg.src = photo.url;
-  likesCount.textContent = photo.likes;
-  commentsCount.textContent = photo.comments.length;
-  socialCaption.textContent = photo.description;
+  BIG_PICTURE_IMG.src = photo.url;
+  LIKES_COINT.textContent = photo.likes;
+  COMMENTS_COINT.textContent = photo.comments.length;
+  SOCIAL_CAPTION.textContent = photo.description;
 
   renderComments(photo.comments);
 
@@ -26,8 +22,8 @@ function openFullScreen(photo) {
 }
 
 function closeFullScreen() {
-  body.classList.remove('modal-open');
-  bigPicture.classList.add('hidden');
+  BODY.classList.remove('modal-open');
+  BIG_PICTURE.classList.add('hidden');
 
   document.removeEventListener('keydown', onEscPress);
   document.querySelector('.big-picture__cancel').removeEventListener('click', closeFullScreen);
@@ -48,7 +44,7 @@ function renderComments(comments) {
     fragment.appendChild(commentElement);
   });
 
-  socialComments.appendChild(fragment);
+  SOCIAL_COMMENTS.appendChild(fragment);
 }
 
 function createCommentElement(comment) {
@@ -73,7 +69,7 @@ function createCommentElement(comment) {
 }
 
 function clearComments() {
-  socialComments.innerHTML = '';
+  SOCIAL_COMMENTS.innerHTML = '';
 }
 
-export { openFullScreen, closeFullScreen };
+export {openFullScreen, closeFullScreen};

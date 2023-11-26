@@ -1,11 +1,11 @@
 import {generatePhotosArray} from '/js/data.js';
 import {openFullScreen} from '/js/fullScreen.js';
 
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const picturesContainer = document.querySelector('.pictures');
+const PIC_TEMP = document.querySelector('#picture').content.querySelector('.picture');
+const PIC_CONTAINER = document.querySelector('.pictures');
 
 function createPictureElement(photo) {
-  const pictureElement = pictureTemplate.cloneNode(true);
+  const pictureElement = PIC_TEMP.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = photo.url;
   pictureElement.querySelector('.picture__img').alt = photo.description;
@@ -25,7 +25,7 @@ function renderPictures() {
     fragment.appendChild(createPictureElement(photo));
   });
 
-  picturesContainer.appendChild(fragment);
+  PIC_CONTAINER.appendChild(fragment);
 }
 
 export {renderPictures};
