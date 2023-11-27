@@ -38,9 +38,9 @@ function meetingWithinWorkHours(dayStart, dayEnd, meetingStart, meetingDuration)
 }
 
 // Примеры использования
-console.log(meetingWithinWorkHours('08:00', '17:30', '14:00', 90)); // true
-console.log(meetingWithinWorkHours('8:0', '10:0', '8:0', 120));     // true
-console.log(meetingWithinWorkHours('08:00', '14:30', '14:00', 90)); // false
-console.log(meetingWithinWorkHours('14:00', '17:30', '08:0', 90));  // false
-console.log(meetingWithinWorkHours('8:00', '17:30', '08:00', 900)); // false
-console.log(meetingWithinWorkHours('08:00', '15:30', '14:00', 90)); // true
+meetingWithinWorkHours('08:00', '17:30', '14:00', 90); // true
+meetingWithinWorkHours('8:0', '10:0', '8:0', 120);     // true
+meetingWithinWorkHours('08:00', '14:30', '14:00', 90); // false
+meetingWithinWorkHours('14:00', '17:30', '08:0', 90);  // false
+meetingWithinWorkHours('8:00', '17:30', '08:00', 900); // false
+meetingWithinWorkHours('08:00', '15:30', '14:00', 90); // true
