@@ -61,11 +61,11 @@ function renderComments() {
     document.querySelector('.comments-loader').classList.remove('hidden');
   }
 
-  document.querySelector('.social__comment-count').textContent = `${currentCommentsCount} из ${comments.length}`;
-}
+  document.querySelector('.social__comment-count').textContent = `${currentCommentsCount} из ${comments.length} комментариев`;}
 
 function loadMoreComments() {
-  currentCommentsCount += COMMENTS_COUNT;
+  const remainingComments = comments.length - currentCommentsCount;
+  currentCommentsCount += Math.min(COMMENTS_COUNT, remainingComments);
   renderComments();
 }
 
