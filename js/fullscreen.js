@@ -5,6 +5,9 @@ const LIKES_COINT = BIG_PICTURE.querySelector('.likes-count');
 const COMMENTS_COINT = BIG_PICTURE.querySelector('.comments-count');
 const SOCIAL_COMMENTS = BIG_PICTURE.querySelector('.social__comments');
 const SOCIAL_CAPTION = BIG_PICTURE.querySelector('.social__caption');
+const COMMENTS_COUNT = 5;
+let currentCommentsCount = 0;
+let comments = [];
 
 function openFullScreen(photo) {
   BODY.classList.add('modal-open');
@@ -19,6 +22,11 @@ function openFullScreen(photo) {
 
   document.addEventListener('keydown', onEscPress);
   document.querySelector('.big-picture__cancel').addEventListener('click', closeFullScreen);
+  comments = photo.comments;
+  currentCommentsCount = Math.min(COMMENTS_COUNT, comments.length);
+  renderComments();
+
+  document.querySelector('.comments-loader').addEventListener('click', loadMoreComments);
 }
 
 function closeFullScreen() {
@@ -27,6 +35,7 @@ function closeFullScreen() {
 
   document.removeEventListener('keydown', onEscPress);
   document.querySelector('.big-picture__cancel').removeEventListener('click', closeFullScreen);
+  document.querySelector('.comments-loader').removeEventListener('click', loadMoreComments);
 }
 
 function onEscPress(evt) {
@@ -35,16 +44,29 @@ function onEscPress(evt) {
   }
 }
 
-function renderComments(comments) {
+function renderComments() {
   clearComments();
   const fragment = document.createDocumentFragment();
 
-  comments.forEach((comment) => {
+  comments.slice(0, currentCommentsCount).forEach((comment) => {
     const commentElement = createCommentElement(comment);
     fragment.appendChild(commentElement);
   });
 
   SOCIAL_COMMENTS.appendChild(fragment);
+
+  if (currentCommentsCount >= comments.length) {
+    document.querySelector('.comments-loader').classList.add('hidden');
+  } else {
+    document.querySelector('.comments-loader').classList.remove('hidden');
+  }
+
+  document.querySelector('.social__comment-count').textContent = `${currentCommentsCount} из ${comments.length} комментариев`;}
+
+function loadMoreComments() {
+  const remainingComments = comments.length - currentCommentsCount;
+  currentCommentsCount += Math.min(COMMENTS_COUNT, remainingComments);
+  renderComments();
 }
 
 function createCommentElement(comment) {
