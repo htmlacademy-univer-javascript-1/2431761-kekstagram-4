@@ -1,4 +1,6 @@
 import {onDocumentKeydown} from '/js/util.js';
+import {applyEffect, resetEffect} from '/js/effects.js';
+import {updateScale} from '/js/scaling.js';
 
 const MAX_HASHTAGS = 5;
 const DESC_LENGTH = 140;
@@ -76,6 +78,8 @@ PRISTINE.addValidator(
 
 function closeOverlay(){
   OVERLAY.classList.add('hidden');
+  resetEffect();
+  updateScale();
   document.body.classList.remove('modal-open');
   CANCEL.removeEventListener('click', closeOverlay);
   document.removeEventListener('keydown', onDocumentKeydown(closeOverlay));
@@ -87,6 +91,7 @@ function closeOverlay(){
 
 function openOverlay() {
   OVERLAY.classList.remove('hidden');
+  applyEffect();
   document.body.classList.add('modal-open');
   CANCEL.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
