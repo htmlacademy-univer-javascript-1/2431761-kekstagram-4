@@ -115,8 +115,6 @@ function generatePhotosArray() {
   return Array.from(photos);
 }
 
-// Файл data.js
-
 function fetchPhotos() {
   return fetch('https://29.javascript.pages.academy/kekstagram/data')
     .then((response) => {
