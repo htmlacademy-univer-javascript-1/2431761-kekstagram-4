@@ -1,4 +1,4 @@
-import {generatePhotosArray} from '/js/data.js';
+import {fetchPhotos} from '/js/data.js';
 import {openFullScreen} from '/js/fullScreen.js';
 
 const PIC_TEMP = document.querySelector('#picture').content.querySelector('.picture');
@@ -18,14 +18,16 @@ function createPictureElement(photo) {
 }
 
 function renderPictures() {
-  const photosArray = generatePhotosArray();
-  const fragment = document.createDocumentFragment();
+  fetchPhotos().then((photosArray) => {
+    const fragment = document.createDocumentFragment();
 
-  photosArray.forEach((photo) => {
-    fragment.appendChild(createPictureElement(photo));
+    photosArray.forEach((photo) => {
+      fragment.appendChild(createPictureElement(photo));
+    });
+
+    PIC_CONTAINER.appendChild(fragment);
   });
-
-  PIC_CONTAINER.appendChild(fragment);
 }
+
 
 export {renderPictures};

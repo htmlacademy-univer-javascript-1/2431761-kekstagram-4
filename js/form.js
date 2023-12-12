@@ -121,3 +121,112 @@ DESCRIPTION.addEventListener('input', (evt) => {
     SUBMIT.removeAttribute('disabled');
   }
 });
+
+UPLOAD_FORM.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+
+  fetch('https://29.javascript.pages.academy/kekstagram', {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Ошибка отправки данных: ${response.status}`);
+      }
+      // Обработка успешной отправки данных
+      closeOverlay(); // Закрытие формы
+      resetForm(); // Сброс формы
+      showSuccessMessage(); // Показ сообщения об успехе
+    })
+    .catch((error) => {
+    // Обработка ошибки отправки данных
+      showErrorMessage(`Произошла ошибка при отправке данных: ${error.message}`);
+    })
+    .finally(() => {
+    // Разблокировка кнопки "Отправить"
+      SUBMIT.removeAttribute('disabled');
+    });
+});
+
+function resetForm() {
+  // Сброс масштаба
+  updateScale();
+
+  // Сброс эффекта
+  resetEffect();
+
+  // Очистка полей для ввода хэш-тегов и комментария
+  HASHTAGS.value = '';
+  DESCRIPTION.value = '';
+
+  // Очистка поля загрузки фотографии
+  UPLOAD_INPUT.value = '';
+}
+
+// Обработчик кнопки сброса
+const resetButton = UPLOAD_FORM.querySelector('.img-upload__cancel');
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
+function showSuccessMessage() {
+  const successTemplate = document.querySelector('#success').content.querySelector('.success');
+  const successElement = successTemplate.cloneNode(true);
+  document.body.appendChild(successElement);
+
+  // Закрытие сообщения об успехе по нажатию на кнопку, клавишу Esc или клику вне блока с сообщением
+  const successButton = successElement.querySelector('.success__button');
+  successButton.addEventListener('click', closeSuccessMessage);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closeSuccessMessage();
+    }
+  });
+  successElement.addEventListener('click', (evt) => {
+    if (evt.target === successElement) {
+      closeSuccessMessage();
+    }
+  });
+}
+
+function closeSuccessMessage() {
+  const successElement = document.querySelector('.success');
+  document.body.removeChild(successElement);
+}
+
+function showErrorMessage(message) {
+  const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  const errorElement = errorTemplate.cloneNode(true);
+  const errorMessage = errorElement.querySelector('.error__message');
+  errorMessage.textContent = message;
+  document.body.appendChild(errorElement);
+
+  // Закрытие сообщения об ошибке по нажатию на кнопку, клавишу Esc или клику вне блока с сообщением
+  const errorButton = errorElement.querySelector('.error__button');
+  errorButton.addEventListener('click', closeErrorMessage);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      closeErrorMessage();
+    }
+  });
+  errorElement.addEventListener('click', (evt) => {
+    if (evt.target === errorElement) {
+      closeErrorMessage();
+    }
+  });
+}
+
+function closeErrorMessage() {
+  const errorElement = document.querySelector('.error');
+  document.body.removeChild(errorElement);
+}
+
+// Обработчик закрытия формы
+CANCEL.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  closeOverlay();
+  resetForm();
+});
