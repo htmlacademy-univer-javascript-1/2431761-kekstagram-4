@@ -8,4 +8,14 @@ const onDocumentKeydown = (evt, closingFunc) => {
   }
 };
 
-export {getRandomInt, onDocumentKeydown};
+function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomInt, onDocumentKeydown, debounce};
