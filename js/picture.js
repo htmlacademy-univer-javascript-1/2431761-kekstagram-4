@@ -32,7 +32,10 @@ function applyFilter(filter, photos) {
 
 const debouncedUpdatePictures = debounce((photos) => {
   // Очищаем контейнер с фотографиями
-  PIC_CONTAINER.innerHTML = '';
+  const pictures = PIC_CONTAINER.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    picture.remove();
+  });
 
   // Рендерим отфильтрованные фотографии
   const fragment = document.createDocumentFragment();

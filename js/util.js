@@ -1,3 +1,5 @@
+const UPDATE_DELAY = 500;
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -8,7 +10,7 @@ const onDocumentKeydown = (evt, closingFunc) => {
   }
 };
 
-function debounce(callback, timeoutDelay = 500) {
+function debounce(callback, timeoutDelay = UPDATE_DELAY) {
   let timeoutId;
 
   return (...rest) => {

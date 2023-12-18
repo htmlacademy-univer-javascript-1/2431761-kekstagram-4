@@ -125,7 +125,6 @@ function fetchPhotos() {
     })
     .catch((error) => {
       showError(error.message);
-      console.error('Ошибка загрузки данных:', error);
     });
 }
 
