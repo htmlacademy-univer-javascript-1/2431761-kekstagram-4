@@ -136,5 +136,4 @@ function showError(message) {
   document.body.appendChild(errorElement);
 }
 
-
 export {generatePhotosArray, fetchPhotos, showError};
