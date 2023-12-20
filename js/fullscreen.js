@@ -1,22 +1,25 @@
-const BODY = document.querySelector('body');
-const BIG_PICTURE = document.querySelector('.big-picture');
-const BIG_PICTURE_IMG = BIG_PICTURE.querySelector('.big-picture__img');
-const LIKES_COINT = BIG_PICTURE.querySelector('.likes-count');
-const COMMENTS_COINT = BIG_PICTURE.querySelector('.comments-count');
-const SOCIAL_COMMENTS = BIG_PICTURE.querySelector('.social__comments');
-const SOCIAL_CAPTION = BIG_PICTURE.querySelector('.social__caption');
 const COMMENTS_COUNT = 5;
+const IMG_SIDES = 35;
+
+const body = document.querySelector('body');
+const bigPicture = document.querySelector('.big-picture');
+const bigPictureImage = bigPicture.querySelector('.big-picture__img');
+const likesCount = bigPicture.querySelector('.likes-count');
+const commentsCount = bigPicture.querySelector('.comments-count');
+const socialComments = bigPicture.querySelector('.social__comments');
+const socialCaption = bigPicture.querySelector('.social__caption');
+
 let currentCommentsCount = 0;
 let comments = [];
 
 function openFullScreen(photo) {
-  BODY.classList.add('modal-open');
-  BIG_PICTURE.classList.remove('hidden');
+  body.classList.add('modal-open');
+  bigPicture.classList.remove('hidden');
 
-  BIG_PICTURE_IMG.src = photo.url;
-  LIKES_COINT.textContent = photo.likes;
-  COMMENTS_COINT.textContent = photo.comments.length;
-  SOCIAL_CAPTION.textContent = photo.description;
+  bigPictureImage.src = photo.url;
+  likesCount.textContent = photo.likes;
+  commentsCount.textContent = photo.comments.length;
+  socialCaption.textContent = photo.description;
 
   renderComments(photo.comments);
 
@@ -30,8 +33,8 @@ function openFullScreen(photo) {
 }
 
 function closeFullScreen() {
-  BODY.classList.remove('modal-open');
-  BIG_PICTURE.classList.add('hidden');
+  body.classList.remove('modal-open');
+  bigPicture.classList.add('hidden');
 
   document.removeEventListener('keydown', onEscPress);
   document.querySelector('.big-picture__cancel').removeEventListener('click', closeFullScreen);
@@ -53,7 +56,7 @@ function renderComments() {
     fragment.appendChild(commentElement);
   });
 
-  SOCIAL_COMMENTS.appendChild(fragment);
+  socialComments.appendChild(fragment);
 
   if (currentCommentsCount >= comments.length) {
     document.querySelector('.comments-loader').classList.add('hidden');
@@ -77,8 +80,8 @@ function createCommentElement(comment) {
   imgElement.classList.add('social__picture');
   imgElement.src = comment.avatar;
   imgElement.alt = comment.name;
-  imgElement.width = 35;
-  imgElement.height = 35;
+  imgElement.width = IMG_SIDES;
+  imgElement.height = IMG_SIDES;
 
   const textElement = document.createElement('p');
   textElement.classList.add('social__text');
@@ -91,7 +94,7 @@ function createCommentElement(comment) {
 }
 
 function clearComments() {
-  SOCIAL_COMMENTS.innerHTML = '';
+  socialComments.innerHTML = '';
 }
 
 export {openFullScreen, closeFullScreen};

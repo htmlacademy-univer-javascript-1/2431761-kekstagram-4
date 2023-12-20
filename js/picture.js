@@ -2,12 +2,16 @@ import { fetchPhotos } from '/js/data.js';
 import { openFullScreen } from '/js/fullscreen.js';
 import { debounce } from '/js/util.js';
 
-const PIC_TEMP = document.querySelector('#picture').content.querySelector('.picture');
-const PIC_CONTAINER = document.querySelector('.pictures');
+const PHOTOS_DERCEASE = 0.5;
+const FIRST_PHOTO = 0;
+const LAST_PHOTO = 10;
+
+const picTemp = document.querySelector('#picture').content.querySelector('.picture');
+const picContainer = document.querySelector('.pictures');
 const imgFilters = document.querySelector('.img-filters');
 
 function createPictureElement(photo) {
-  const pictureElement = PIC_TEMP.cloneNode(true);
+  const pictureElement = picTemp.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = photo.url;
   pictureElement.querySelector('.picture__img').alt = photo.description;
@@ -22,7 +26,7 @@ function createPictureElement(photo) {
 function applyFilter(filter, photos) {
   switch (filter) {
     case 'filter-random':
-      return photos.slice().sort(() => Math.random() - 0.5).slice(0, 10);
+      return photos.slice().sort(() => Math.random() - PHOTOS_DERCEASE).slice(FIRST_PHOTO, LAST_PHOTO);
     case 'filter-discussed':
       return photos.slice().sort((a, b) => b.comments.length - a.comments.length);
     default:
@@ -32,7 +36,7 @@ function applyFilter(filter, photos) {
 
 const debouncedUpdatePictures = debounce((photos) => {
   // Очищаем контейнер с фотографиями
-  const pictures = PIC_CONTAINER.querySelectorAll('.picture');
+  const pictures = picContainer.querySelectorAll('.picture');
   pictures.forEach((picture) => {
     picture.remove();
   });
@@ -42,7 +46,7 @@ const debouncedUpdatePictures = debounce((photos) => {
   photos.forEach((photo) => {
     fragment.appendChild(createPictureElement(photo));
   });
-  PIC_CONTAINER.appendChild(fragment);
+  picContainer.appendChild(fragment);
 });
 
 imgFilters.addEventListener('click', (evt) => {
@@ -68,7 +72,7 @@ function renderPictures() {
         fragment.appendChild(createPictureElement(photo));
       });
 
-      PIC_CONTAINER.appendChild(fragment);
+      picContainer.appendChild(fragment);
 
       imgFilters.classList.remove('img-filters--inactive');
       resolve(photosArray);
