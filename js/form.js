@@ -1,6 +1,7 @@
 import {onDocumentKeydown} from '/js/util.js';
 import {applyEffect, resetEffect} from '/js/effects.js';
 import {updateScale} from '/js/scaling.js';
+import {fileChooser, preview} from '/js/upload.js';
 
 const MAX_HASHTAGS = 5;
 const DESC_LENGTH = 140;
@@ -96,6 +97,15 @@ function openOverlay() {
   CANCEL.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
   UPLOAD_INPUT.removeEventListener('click', openOverlay);
+
+  // Если пользователь выбрал файл, отобразить его в предварительном просмотре
+  if (fileChooser.files.length > 0) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.src = e.target.result;
+    };
+    reader.readAsDataURL(fileChooser.files[0]);
+  }
 }
 
 UPLOAD_INPUT.addEventListener('change', openOverlay);
