@@ -5,16 +5,17 @@ import {fileChooser, preview} from '/js/upload.js';
 
 const MAX_HASHTAGS = 5;
 const DESC_LENGTH = 140;
-const UPLOAD_FORM = document.querySelector('.img-upload__form');
-const UPLOAD_INPUT = UPLOAD_FORM.querySelector('.img-upload__input');
-const OVERLAY = UPLOAD_FORM.querySelector('.img-upload__overlay.hidden');
-const CANCEL = UPLOAD_FORM.querySelector('.img-upload__cancel');
-const HASHTAGS = UPLOAD_FORM.querySelector('.text__hashtags');
-const DESCRIPTION = UPLOAD_FORM.querySelector('.text__description');
-const SUBMIT = UPLOAD_FORM.querySelector('#upload-submit');
-const VALIDATION = /^#[0-9a-zа-яё]{1,19}$/i;
 
-const PRISTINE = new Pristine(UPLOAD_FORM, {
+const uploadForm = document.querySelector('.img-upload__form');
+const uploadInput = uploadForm.querySelector('.img-upload__input');
+const overlay = uploadForm.querySelector('.img-upload__overlay.hidden');
+const cancel = uploadForm.querySelector('.img-upload__cancel');
+const hashtags = uploadForm.querySelector('.text__hashtags');
+const description = uploadForm.querySelector('.text__description');
+const submit = uploadForm.querySelector('#upload-submit');
+const validation = /^#[0-9a-zа-яё]{1,19}$/i;
+
+const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload--invalid',
   successClass: 'img-upload--valid',
@@ -26,10 +27,10 @@ const PRISTINE = new Pristine(UPLOAD_FORM, {
 const checkCountOfHashtags = (value) => value.trim().split(' ').length <= MAX_HASHTAGS;
 
 const checkHashtagsUniqueness = (value) => {
-  const hashtags = value.split(' ');
+  const hashtagsList = value.split(' ');
   const hashTagMap = {};
-  for (let i = 0; i < hashtags.length; i++) {
-    const hashtag = hashtags[i];
+  for (let i = 0; i < hashtagsList.length; i++) {
+    const hashtag = hashtagsList[i];
     if (hashtag in hashTagMap) {
       return false;
     }
@@ -42,61 +43,61 @@ const checkHashtages = (value) => {
   if (value.length === 0) {
     return true;
   }
-  const hashtags = value.trim().split(' ');
-  for (let i = 0; i < hashtags.length; ++i) {
-    if (!VALIDATION.test(hashtags[i])) {
+  const hashtagsList = value.trim().split(' ');
+  for (let i = 0; i < hashtagsList.length; ++i) {
+    if (!validation.test(hashtagsList[i])) {
       return false;
     }
   }
   return true;
 };
 
-PRISTINE.addValidator(
-  HASHTAGS,
+pristine.addValidator(
+  hashtags,
   checkCountOfHashtags,
   'Количество хэштегов не может превышать 5'
 );
 
-PRISTINE.addValidator(
-  HASHTAGS,
+pristine.addValidator(
+  hashtags,
   checkHashtagsUniqueness,
   'Не должно быть повторяющихся хэштегов'
 );
 
-PRISTINE.addValidator(
-  HASHTAGS,
+pristine.addValidator(
+  hashtags,
   checkHashtages,
   'Неверное содержание хештега'
 );
 
 const checkDescription = (value) => value.trim().length <= DESC_LENGTH;
 
-PRISTINE.addValidator(
-  DESCRIPTION,
+pristine.addValidator(
+  description,
   checkDescription,
   'Описание не может быть больше 140 символов'
 );
 
 function closeOverlay(){
-  OVERLAY.classList.add('hidden');
+  overlay.classList.add('hidden');
   resetEffect();
   updateScale();
   document.body.classList.remove('modal-open');
-  CANCEL.removeEventListener('click', closeOverlay);
+  cancel.removeEventListener('click', closeOverlay);
   document.removeEventListener('keydown', onDocumentKeydown(closeOverlay));
-  UPLOAD_INPUT.addEventListener('click', openOverlay);
-  UPLOAD_INPUT.value = null;
-  HASHTAGS.textContent = '';
-  DESCRIPTION.textContent = '';
+  uploadInput.addEventListener('click', openOverlay);
+  uploadInput.value = null;
+  hashtags.textContent = '';
+  description.textContent = '';
 }
 
 function openOverlay() {
-  OVERLAY.classList.remove('hidden');
+  overlay.classList.remove('hidden');
   applyEffect();
   document.body.classList.add('modal-open');
-  CANCEL.addEventListener('click', closeOverlay);
+  cancel.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
-  UPLOAD_INPUT.removeEventListener('click', openOverlay);
+  uploadInput.removeEventListener('click', openOverlay);
 
   // Если пользователь выбрал файл, отобразить его в предварительном просмотре
   if (fileChooser.files.length > 0) {
@@ -108,31 +109,31 @@ function openOverlay() {
   }
 }
 
-UPLOAD_INPUT.addEventListener('change', openOverlay);
+uploadInput.addEventListener('change', openOverlay);
 
-HASHTAGS.addEventListener('input', (evt) => {
+hashtags.addEventListener('input', (evt) => {
   evt.preventDefault();
-  const isValid = PRISTINE.validate();
+  const isValid = pristine.validate();
   if (!isValid) {
-    SUBMIT.setAttribute('disabled', true);
+    submit.setAttribute('disabled', true);
   }
   else{
-    SUBMIT.removeAttribute('disabled');
+    submit.removeAttribute('disabled');
   }
 });
 
-DESCRIPTION.addEventListener('input', (evt) => {
+description.addEventListener('input', (evt) => {
   evt.preventDefault();
-  const isValid = PRISTINE.validate();
+  const isValid = pristine.validate();
   if (!isValid) {
-    SUBMIT.setAttribute('disabled', true);
+    submit.setAttribute('disabled', true);
   }
   else{
-    SUBMIT.removeAttribute('disabled');
+    submit.removeAttribute('disabled');
   }
 });
 
-UPLOAD_FORM.addEventListener('submit', (evt) => {
+uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const formData = new FormData(evt.target);
@@ -156,7 +157,7 @@ UPLOAD_FORM.addEventListener('submit', (evt) => {
     })
     .finally(() => {
     // Разблокировка кнопки "Отправить"
-      SUBMIT.removeAttribute('disabled');
+      submit.removeAttribute('disabled');
     });
 });
 
@@ -168,15 +169,15 @@ function resetForm() {
   resetEffect();
 
   // Очистка полей для ввода хэш-тегов и комментария
-  HASHTAGS.value = '';
-  DESCRIPTION.value = '';
+  hashtags.value = '';
+  description.value = '';
 
   // Очистка поля загрузки фотографии
-  UPLOAD_INPUT.value = '';
+  uploadInput.value = '';
 }
 
 // Обработчик кнопки сброса
-const resetButton = UPLOAD_FORM.querySelector('.img-upload__cancel');
+const resetButton = uploadForm.querySelector('.img-upload__cancel');
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm();
@@ -235,7 +236,7 @@ function closeErrorMessage() {
 }
 
 // Обработчик закрытия формы
-CANCEL.addEventListener('click', (evt) => {
+cancel.addEventListener('click', (evt) => {
   evt.preventDefault();
   closeOverlay();
   resetForm();
